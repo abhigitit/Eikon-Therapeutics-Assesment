@@ -1,0 +1,25 @@
+# Ignore editor and system files
+.vscode/
+.idea/
+
+# Ignore dependencies managed by pip
+venv/
+env/
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore build artifacts
+build/
+dist/
+
+# Ignore configuration files with sensitive information
+config.ini
+secrets.json
+
+# Ignore log files
+*.log
+
+# Ignore any other files or directories not needed in the repository
+data/
+docs/
