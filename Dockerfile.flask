@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install --no-cache-dir Flask pandas SQLAlchemy psycopg2-binary
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir Flask pandas SQLAlchemy psycopg2
 
 CMD [ "python", "app.py" ]
