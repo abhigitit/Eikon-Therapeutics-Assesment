@@ -1,0 +1,16 @@
+# Ignore common editor and system files
+.git
+.vscode
+.idea
+*.pyc
+
+# Ignore dependencies managed by pip
+venv
+env
+pipenv
+pipfile.lock
+
+# Ignore any other files or directories not needed in the Docker image
+docs
+tests
+data
