@@ -32,7 +32,7 @@ def get_user_stats():
     user_stats = pipeline.get_user_stats(user_id)
     if "message" in user_stats:
         return jsonify(user_stats), 400
-    return jsonify(user_stats)
+    return jsonify(user_stats), 200
 
 
 

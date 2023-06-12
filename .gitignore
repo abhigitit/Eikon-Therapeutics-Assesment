@@ -3,6 +3,7 @@
 .idea/
 .DS_Store
 # Ignore dependencies managed by pip
+myenv/
 venv/
 env/
 *.pyc

@@ -1,5 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
 
 import config
 
@@ -12,6 +13,7 @@ class UserExperimentsPipeline:
 
     def __init__(self):
         self.db_engine = create_engine(config.DATABASE_URL)
+        self.db_session = sessionmaker(bind=self.db_engine)()
 
     def start_etl(self):
         self.users = None
@@ -52,25 +54,22 @@ class UserExperimentsPipeline:
         except Exception as e:
             print("Error occurred while loading data to DB", e)
 
-    def get_user_stats(self, user_id):
+    def get_user_stats(self, user):
         try:
-            if user_id is not None:
-                query = f"SELECT * FROM user_stats where user_id={user_id} LIMIT 10;"
-                with self.db_engine.connect() as conn:
-                    result = conn.execute(text(query))
-                response = []
+            if user is not None:
+                query = text("SELECT * FROM user_stats WHERE user_id = :user")
+                result = self.db_session.execute(query, {"user": str(user)})
                 columns = result.keys()
-                for row in result:
-                    user_data = dict(zip(columns, row))
-                    response.append(user_data)
+                response = [dict(zip(columns, row)) for row in result]
+
                 if not response:
                     print("No data found for this user id")
                     return {"message": "No data found for this user id"}
+
                 return response
             else:
                 print("User id is None")
                 return {"message": "User id is None"}
         except Exception as e:
-            print("Error occurred while retrieving user stats", e)
+            print("Error occurred while retrieving user stats:", str(e))
             return {"message": "Error occurred while retrieving user stats", "error": str(e)}
-
